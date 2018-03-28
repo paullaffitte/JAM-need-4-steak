@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+
+import sys
+sys.path.insert(0, './python3/')
+from napi import *
+from math import *
+
+N4S = Napi()
+
+def getSpeed():
+    speed = (N4S.getDirection() / 3100) * 1.5
+    if (N4S.getDirection() < 200):
+        speed = -1
+    return speed
+
+def getAlpha(speed):
+    alpha = 0
+    right = N4S.getRayAt(31)
+    left = N4S.getRayAt(0)
+
+    N4S.debug(str(left) + " , " + str(right))
+    if right > left:
+        alpha = -(right / left % (min(speed, 0.2)))
+    elif left > right:
+        alpha = (left / right % (min(speed, 0.2)))
+    else:
+        alpha = 0
+
+    N4S.debug(str(alpha))
+    return alpha
+
+def my_custom_update():
+    speed   =   getSpeed()
+    alpha   =   getAlpha(speed)
+    middle  =   N4S.getRayAt(15)
+
+    N4S.setThrust( speed, refresh = True )
+    N4S.setDirection( alpha, refresh = True )
+
+if __name__ == '__main__':
+    N4S.start(my_custom_update)
