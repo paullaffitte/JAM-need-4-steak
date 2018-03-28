@@ -4,8 +4,23 @@ import sys
 sys.path.insert(0, './python3/')
 from napi import *
 from math import *
+from functools import reduce 
 
 N4S = Napi()
+
+def getAverage(list):
+    return reduce(lambda x, y: x + y, list) / len(list)
+
+def getSplitedRays():
+    rays = N4S.getRays()
+    left = rays[:12]
+    right = rays[-12:]
+    center = rays[12:20]
+    return {'left': left, 'right': right, 'center': center}
+
+def getComputedRays():
+    splited = getSplitedRays()
+    return {'left': getAverage(splited['left']), 'right': getAverage(splited['right']), 'center': getAverage(splited['center'])}
 
 def getSpeed():
     speed = (N4S.getDirection() / 3100) * 1.5
