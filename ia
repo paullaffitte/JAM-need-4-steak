@@ -4,7 +4,7 @@ import sys
 sys.path.insert(0, './python3/')
 from napi import *
 from math import *
-from functools import reduce 
+from functools import reduce
 
 N4S = Napi()
 
@@ -23,8 +23,8 @@ def getComputedRays():
     return {'left': getAverage(splited['left']), 'right': getAverage(splited['right']), 'center': getAverage(splited['center'])}
 
 def getSpeed(computed):
-    speed = (computed['center'] / 3100) * 1.5
-    if (computed['center'] < 200):
+    speed = (computed['center'] / 2000) * 2
+    if (computed['center'] < 20):
         speed = -1
     return speed
 
